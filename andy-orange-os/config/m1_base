@@ -1,0 +1,64 @@
+#Makefile for boot
+
+#Entry Point for my os
+#It must be the same as 'KernelEntryPointPhyAddr' in load.inc
+ENTRY_POINT=0x030500
+
+#Offset of entry point in kernel file
+#It depends on Entry Point
+ENTRY_OFFSET=0x400
+
+#program,flags,etc.
+ASM=nasm
+DASM=ndisasm
+CC=gcc
+#CC=g++
+LD=ld
+ASM_BOOT_FLAGS=-I ./boot/include/
+ASM_KERNEL_FLAGS=-I include/ -f elf32
+CFLAGS=-I include -I kernel/include -c -fno-builtin -m32 -fno-stack-protector -Wno-deprecated
+#-Wno-deprecated added in chapter8/a
+#LDFLAGS=-Ttext $(ENTRY_POINT) --oformat elf32-i386 #-s
+LDFLAGS=-Ttext $(ENTRY_POINT) -m elf_i386 #-s
+DASMFLAGS=-u -o $(ENTRY_POINT) -e $(ENTRY_OFFSET)
+
+#This program
+TINIX_BOOT=boot/boot.img boot/loader.com boot/boot.com
+TINIX_KERNEL=kernel/kernel.bin
+
+#All Phony Targets
+.PHONY:everything all clean disasm build_iso build_img
+
+#Default starting position
+everything: $(TINIX_KERNEL) $(TINIX_BOOT) build_img
+
+
+###########################################################################
+build_img:
+	mount	-o loop	boot/boot.img	/mnt/floppy
+	cp -f boot/loader.com	/mnt/floppy
+	cp -f $(TINIX_KERNEL) /mnt/floppy
+	umount	/mnt/floppy	
+build_iso:
+	mkisofs -o cd.iso boot/loader.com boot/boot.com $(TINIX_KERNEL)	
+dasmInfo:
+	mkdir -p kernel/info/
+	ndisasm -u -o $(ENTRY_POINT) -e $(ENTRY_OFFSET) $(TINIX_KERNEL) >kernel/info/kernel.bin.asm
+	readelf	-a -S $(TINIX_KERNEL) >kernel/info/kernel.elf
+	ndisasm -u kernel/init.o >kernel/info/init.asm
+#生成目标软盘
+boot/boot.img: boot/boot.bin
+	dd if=/dev/zero of=emptydisk.img bs=512 count=2880 #生成空白软盘镜像文件
+	dd if=boot/boot.bin of=boot/boot.img bs=512 count=1 #用 bin file 生成对应的镜像文件
+	dd if=emptydisk.img of=boot/boot.img skip=1 seek=1 bs=512 count=2879 #在 bin 生成的镜像文件后补上空白，最后成为合适大小的软盘镜像
+	rm -rf emptydisk.img
+	sudo chmod 666 boot/boot.img
+boot/boot.bin:./boot/boot.asm ./boot/include/load.inc ./boot/include/fat12hdr.inc
+	$(ASM) $(ASM_BOOT_FLAGS) -o $@ $<
+boot/loader.com:boot/loader.asm boot/include/load.inc boot/include/fat12hdr.inc boot/include/pm.inc boot/include/lib.inc
+	$(ASM) $(ASM_BOOT_FLAGS) -o $@ $<
+boot/boot.com:./boot/boot.asm ./boot/include/load.inc ./boot/include/fat12hdr.inc
+	$(ASM) $(ASM_BOOT_FLAGS) -D_BOOT_DEBUG_ -o $@ $<
+###########################################################################
+
+

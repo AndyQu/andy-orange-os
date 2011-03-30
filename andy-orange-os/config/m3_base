@@ -1,0 +1,3 @@
+$(TINIX_KERNEL):$(OBJS)
+	$(LD) $(LDFLAGS) -o $@ $(OBJS)
+	objdump -D $(TINIX_KERNEL) > dump
