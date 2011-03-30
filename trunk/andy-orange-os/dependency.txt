@@ -1,0 +1,6 @@
+系统代码中的依赖关系，随着系统内核的开发，应予以解决。
+1.NR_TASKS宏定义指定了进程表中系统任务的最大数量；NR_PROCS宏定义指定了进程表中普通进程的最大数量。
+  ./kernel/kernel.asm中的P1_PID宏定义指定了系统启动之后执行的第一个进程ID。P1_PID==NR_TASKS+1这一
+  关系必须予以维持。
+2.kernel/interrupt.asm中的Save函数，在保存寄存器组之后，将ss的数值复制到了ds和es寄存器中。因此，内核的GDT表中
+	ss,ds,es的范围、权限必须相同。

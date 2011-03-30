@@ -1,0 +1,46 @@
+以下是Mini Os的基本架构：
+
+1。使用boot/boot.bin做成boot.img软盘映像，boot.bin位于整个软盘第一个扇区。
+	1.只有当此扇区以0xAA55的时候，bios才能认为这是一个引导扇区，从而将其加载到内存0000:7c00处，然后跳转到0000:7c00执行。
+	2.Mini OS设计为识别fat12文件系统格式，所以软盘的第一个扇区头必须按照fat12的格式要求进行数据填充。
+2。boot.bin:
+	1.从软盘中找到loader.com，加载至内存BaseOfLoader:OffsetOfLoader处。
+	2.跳转至loader.com。
+3。loader.com:
+	1。从软盘中找到kernel.bin，加载至内存BaseOfKernelFile:OffsetOfKernelFile处。
+	2。初始化一个GDT，然后从实模式跳转到保护模式。
+	3。将kernle.bin按照elf格式要求装载。
+	3。跳转至kernel.bin的entrypoint。
+4。kernel.bin:
+	1。调用kernel/start.c的cstart函数：
+		将loader中的GDT复制到新的GDT结构体:gdt，gdt_ptr
+		调用kernel/set_idt.c中的init_prot函数:
+			初始化i8259a
+			填充idt结构体
+		idt_ptr指向idt结构体
+	2。lgdt [gdt_ptr]、lidt [idt_ptr]加载新的gdt和idt
+	3。jmp     SELECTOR_KERNEL_CS:csinit，这一指令将检测gdt是否成功加载。
+	4。调用kernel/start.c中的init_process_table函数初始化进程表：
+		初始化寄存器域
+		调用kernel/start.c中的init_process_LDT函数：
+			初始化各个进程独立的LDT
+			将各个进程的LDT描述符填充到GDT
+	5。调用kernel/init_tss函数:
+		填充tss段在GDT的描述符
+	6。ltr加载tss选择子
+	7。将当前内核的ss和esp填入tss相应位置。
+	8。将第一个进程的ss,esp,cs,eip压入堆栈
+	9。retf指令跳转到第一个进程。
+5。时钟中断程序：kernel/interrupt.asm:clock_int
+	1。将通用寄存器、选择子寄存器全部压入堆栈
+	2。将内核的数据选择子加载到ds
+	3。调用save_process_state保存当前的进程状态。
+	4。调用schedule函数获取下一个应该得到执行的进程的进程号。
+	5。调用LoadProcessState将进程的状态加载进堆栈。
+	6。加载进程的LDT选择子。
+	7。返回至新的进程。
+6。键盘中断函数：kernel/interrupt.asm:key_int
+	1。调用kernel/key.c中的key_interrupt函数：
+		将8042的扫描码写入键盘输入缓冲区
+7。第四个进程:tty_task
+	将用户键盘输入映射到当前的tty显示，alt+f1/f2/f3组合键切换tty终端控制台。

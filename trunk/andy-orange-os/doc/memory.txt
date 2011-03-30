@@ -1,0 +1,8 @@
+0x1000==4K
+0x10000==64K 0xA0000=640K
+0x100000==1M
+
+boot/boot.asm:	;es=0，bx=OffsetOfDir=0x8000h，所以根目录被加载到内存0x0000:8000处即0x08000h处
+boot/boot.asm:	;es=BaseOfLoader=08000h,bx=OffsetOfLoader=0100h，所以loader.com文件被加载于0x8000:0100即0x80100处
+boot/loader.asm:	;es=cs=BaseOfLoader=0x8000，bx=OffsetOfDir=09000h。所以根目录被加载在0x8000:9000即0x89000处
+boot/loader.asm:	;es=BaseOfKernelFile=0x9000，bx=OffsetOfKernelFile=0x0，所以kernel.bin文件被加载处0x9000:0000即0x90000处

@@ -1,0 +1,4 @@
+#! /bin/sh
+
+python ./config/configure.py
+echo "\nGenerate makeFile successfully!\n\n"
