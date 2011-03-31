@@ -99,6 +99,8 @@ class MakefileGenerator:
 		retdirs.append(basedir);
 		dirs=os.listdir(basedir);
 		for dir in dirs:
+			if dir.find("svn")!=-1:
+				continue;
 			dir=basedir+'/'+dir+'/';
 			if os.path.isdir(dir):
 				retdirs+=(self.getAllDirs(dir));

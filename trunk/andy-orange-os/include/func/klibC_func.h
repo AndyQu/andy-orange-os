@@ -7,5 +7,6 @@
 PUBLIC	char*	itoa(char *str,unsigned int num);
 PUBLIC	char*	strcpy(char*dest, char*src);
 PUBLIC	int	strlen(char*s);
+PUBLIC void port_read(t_port port,void*buf,int count);
 
 #endif
