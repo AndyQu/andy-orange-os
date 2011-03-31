@@ -4,3 +4,4 @@
   关系必须予以维持。
 2.kernel/interrupt.asm中的Save函数，在保存寄存器组之后，将ss的数值复制到了ds和es寄存器中。因此，内核的GDT表中
 	ss,ds,es的范围、权限必须相同。
+3.include/task/task.h中定义的三个宏TASK_TTY、TASK_TICK、TASK_HD是三个系统任务的进程ID。>其数值必须与./sys_task/task.c中init_tasks对三个进程初始化的顺序相对应。如果第一个初始化>的进程是tty，则task_tty的数值应为1；若第二个是tty，则task_tty的数值应为2。

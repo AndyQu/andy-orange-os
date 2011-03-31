@@ -93,13 +93,10 @@ Save:
 	ja	.reenter
 	mov	esp,StackTop
 	push restart;将restart函数地址压入堆栈
-	jmp	.1
+	jmp [edi+4*12]
 .reenter:
 	push restart_reenter;将restart_reenter函数地址压入堆栈
 	inc	byte[gs:540];每次键盘中断一次，改变一次
-	jmp [edi+4*12]
-.1:
-	push restart
 	jmp [edi+4*12]
 ;>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ;>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
