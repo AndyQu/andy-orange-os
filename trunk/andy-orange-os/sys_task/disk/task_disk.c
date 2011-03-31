@@ -42,9 +42,19 @@ PUBLIC void task_disk()
 	assert(*pNrDrives);
 	set_hd_handler(disk_int);
 	enable_disk();
-	hd_identify(0);
-	hd_identify(0);
+	printf("This is disk task\n");
+
+	MESSAGE msg;
+	int src;
 	while(1){
+		sendrec(RECEIVE,ANY,&msg);
+		switch(msg.type){
+			case DISK_IDENTIFY:
+				hd_identify(0);
+				break;
+			default:
+				continue;	
+		}	
 	}
 }
 PRIVATE void hd_identify(int drive)
@@ -54,9 +64,7 @@ PRIVATE void hd_identify(int drive)
 	cmd.command=ATA_IDENTIFY;
 	hd_cmd_out(&cmd);
 
-	printf("This is disk task before interrupt\n");
 	interrupt_wait();
-	printf("This is disk task after interrupt\n");
 	port_read(REG_HD_DATA,hdbuf,SECTOR_SIZE);
 	print_identify_info(hdbuf);
 }
