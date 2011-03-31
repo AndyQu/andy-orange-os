@@ -7,6 +7,7 @@
 #include"ipc.h"
 
 static int __DEBUG_ProcUtil=0;
+static int __id=3;
 /*
 <Ring 0>
 */
@@ -37,7 +38,7 @@ PUBLIC  PROCESS_TABLE* pid2proc(int pid)
 PUBLIC  void unblock(PROCESS_TABLE*p)
 {
 	assert_kernel(p->p_flags==RUNNABLE);
-	if(__DEBUG_ProcUtil==1){
+	if(__DEBUG_ProcUtil==1 && proc2pid(p)==__id){
 		printf_kernel("(unblock %d)",proc2pid(p));
 /*
 		int i,j;
@@ -58,7 +59,7 @@ PUBLIC  void block(PROCESS_TABLE*p)
 {
         int     text_color=0x74;/*灰底红字*/
         assert_kernel(p->p_flags!=RUNNABLE);
-	if(__DEBUG_ProcUtil==1){
+	if(__DEBUG_ProcUtil==1 && proc2pid(p)==__id){
 		printf_kernel("(block %d)",proc2pid(p));
 /*
 		int i,j;

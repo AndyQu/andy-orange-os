@@ -6,9 +6,11 @@
 void task_disk(void);
 void task_tick(void);
 void task_tty(void);
+void task_fs(void);
 PUBLIC void init_tasks(void)
 {
 	add_system_task((int)task_tty);
 	add_system_task((int)task_tick);
 	add_system_task((int)task_disk);
+	add_system_task((int)task_fs);
 }

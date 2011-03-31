@@ -7,7 +7,8 @@
 #include"assert.h"
 #include"proc.h"
 
-static int __DEBUG_Ipc=1;
+static int __DEBUG_Ipc=0;
+static int __id=3;
 /*****************************************************************************
  *                                msg_send
  *****************************************************************************/
@@ -35,7 +36,7 @@ PUBLIC	void	msg_send(int src, int dest, MESSAGE*m)
 	if the receiver process's state is waiting, and the p_recvfrom is just the src process or ANY,
 	then copy the message to receiver, and unblock it.
 	*/
-	if(receiver->p_flags&RECEIVING!=0 && (receiver->p_recvfrom==src||receiver->p_recvfrom==ANY)){
+	if( (receiver->p_flags & RECEIVING) !=0 && (receiver->p_recvfrom==src||receiver->p_recvfrom==ANY)){
 		/*
 		Notie:
 		Since receiver is waiting for receive,then receiver->msg must be pointing to some valid memory.
@@ -47,7 +48,7 @@ PUBLIC	void	msg_send(int src, int dest, MESSAGE*m)
 		receiver->msg=0;
 		receiver->p_flags &= ~RECEIVING;
 		receiver->p_recvfrom=NO_TASK;
-		if(__DEBUG_Ipc==1 && (src==1 || dest==1) ){
+		if(__DEBUG_Ipc==1 && (src==__id || dest==__id) ){
 			printf_kernel(" %d sent message to %d ",src,dest);
 		}
 		unblock(receiver);
@@ -58,8 +59,9 @@ PUBLIC	void	msg_send(int src, int dest, MESSAGE*m)
 	And the sender should be blocker.
 	*/
 	else{
-		if(__DEBUG_Ipc==1 && (src==1 || dest==1)){
-			printf_kernel(" %d sending message to %d ",src,dest);
+		if(__DEBUG_Ipc==1 && (src==__id || dest==__id) ){
+			printf_kernel("%d receving from %d",dest,receiver->p_recvfrom);
+			printf_kernel(" %d sending message to %d\n",src,dest);
 		}	
 		PROCESS_TABLE*p=receiver->sendingQ;
 		if(p==0){
@@ -117,13 +119,16 @@ PUBLIC	void	msg_receive(int dest, int src, MESSAGE*m)
 		}
 	}
 	if(src==ANY)/*from any process*/{
+		if(__DEBUG_Ipc==1&&(dest==__id||src==__id)){
+			printf_kernel("receive:ANY\n");
+		}
 		if(current->sendingQ!=0){
 			sender=current->sendingQ;
 			assert_kernel(sender);
 			assert_kernel((sender->p_flags&SENDING)!=0);
 			assert_kernel(sender->p_sendto==dest);
 			src=proc2pid(sender);
-			if(__DEBUG_Ipc==1 && (src==1)){
+			if(__DEBUG_Ipc==1 && (src==__id)){
 				printf_kernel("receive:src changed from ANY to %d\n",src);
 			}
 		}
@@ -144,7 +149,7 @@ PUBLIC	void	msg_receive(int dest, int src, MESSAGE*m)
 		sender->msg=0;
 		sender->p_sendto=NO_TASK;
 		sender->p_flags &=~SENDING;
-		if(__DEBUG_Ipc==1 && (src==1 || dest==1)){
+		if(__DEBUG_Ipc==1 && (src==__id || dest==__id)){
 			printf_kernel(" %d received message from %d ",dest,src);
 		}
 		unblock(sender);
@@ -160,7 +165,7 @@ PUBLIC	void	msg_receive(int dest, int src, MESSAGE*m)
 		current->p_flags |= RECEIVING;
 		current->p_recvfrom=src;
 		current->msg=m;
-		if(__DEBUG_Ipc==1 && (src==1 || dest==1)){
+		if(__DEBUG_Ipc==1 && (src==__id || dest==__id)){
 			printf_kernel(" %d receiving message from %d ",dest,src);
 		}
 		block(current);
@@ -201,6 +206,7 @@ PUBLIC void inform_int(int pid)
 	PROCESS_TABLE*p=pid2proc(pid);
 	assert_kernel(p!=0);
 	/*the target process is waiting for a message*/
+	printf_kernel("sending to %d ",pid);
 	if( (p->p_flags&RECEIVING)!=0 && ( p->p_recvfrom==ANY|| p->p_recvfrom==INTERRUPT) ){
 		p->has_int_msg=TRUE;
 		p->p_flags&=~RECEIVING;

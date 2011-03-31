@@ -62,7 +62,7 @@ boot/boot.com:./boot/boot.asm ./boot/include/load.inc ./boot/include/fat12hdr.in
 ###########################################################################
 
 
-OBJS=./kernel/kernel.o ./kernel/tss.o ./kernel/myprintf.o ./kernel/ipc.o ./kernel/proc_init.o ./kernel/schedule.o ./kernel/set_idt.o ./kernel/sys_call_shell.o ./kernel/exception.o ./kernel/global_const.o ./kernel/i8259.o ./kernel/proc_util.o ./kernel/printf.o ./kernel/kernel_printf.o ./kernel/init.o ./kernel/interrupt.o ./kernel/global.o ./kernel/sys_call_kernel.o ./lib/klib.o ./lib/misc.o ./lib/klibC.o ./sys_task/task.o ./sys_task/interface_get_ticks.o ./sys_task//disk/task_disk.o ./sys_task//tick/task_tick.o ./sys_task//tty/tty.o ./sys_task//tty/task_tty.o ./sys_task//tty/key.o ./sys_task//tty/keymap.o ./application//test/normal_procs.o 
+OBJS=./kernel/kernel.o ./kernel/tss.o ./kernel/myprintf.o ./kernel/ipc.o ./kernel/proc_init.o ./kernel/schedule.o ./kernel/set_idt.o ./kernel/sys_call_shell.o ./kernel/exception.o ./kernel/global_const.o ./kernel/i8259.o ./kernel/proc_util.o ./kernel/printf.o ./kernel/kernel_printf.o ./kernel/init.o ./kernel/interrupt.o ./kernel/global.o ./kernel/sys_call_kernel.o ./lib/klib.o ./lib/misc.o ./lib/klibC.o ./sys_task/task.o ./sys_task/interface_get_ticks.o ./sys_task//disk/task_disk.o ./sys_task//fs/task_fs.o ./sys_task//tick/task_tick.o ./sys_task//tty/tty.o ./sys_task//tty/task_tty.o ./sys_task//tty/key.o ./sys_task//tty/keymap.o ./application//test/normal_procs.o 
 CFLAGS=-c -fno-builtin -m32 -fno-stack-protector -Wno-deprecated  -I ./kernel/./include/ -I ./include/ -I ./include//assert/ -I ./include//func/ -I ./include//8259A/ -I ./include//8253/ -I ./include//keyboard/ -I ./include//ipc/ -I ./include//task/ -I ./include//protect/ -I ./include//hard_disk/ -I ./include//interrupt/ -I ./include//proc/ -I ./include//video/ -I ./include//type/ -I ./include//console/ -I ./include//const/
 
 
@@ -240,6 +240,11 @@ $(TINIX_KERNEL):$(OBJS)
   include//hard_disk/hd_type.h include//type/type.h include//proc/proc.h \
   include//proc/proc_type.h include//proc/proc_func.h \
   include//const/const.h include//task/task.h
+	$(CC) $(CFLAGS) -o $@ $<
+./sys_task//fs/task_fs.o: sys_task//fs/task_fs.c include//const/const.h \
+  include//type/type.h include//task/task.h include//ipc/ipc.h \
+  include//ipc/ipc_const.h include//ipc/ipc_type.h \
+  include//ipc/ipc_func.h
 	$(CC) $(CFLAGS) -o $@ $<
 ./sys_task//tick/task_tick.o: sys_task//tick/task_tick.c include//type/type.h \
   include//const/const.h include//protect/protect_type.h \
