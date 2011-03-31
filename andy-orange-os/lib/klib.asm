@@ -74,6 +74,7 @@ disp_str:
 	
 	ret
 ;---------------------------------------------
+;out_byte(t_port port,t_8 data)
 out_byte:
 	push	ebp
 	mov	ebp,esp
@@ -87,6 +88,7 @@ out_byte:
 	pop	ebp
 	ret
 ;---------------------------------------------
+;in_byte(t_port port)
 in_byte:
 	push	ebp
 	mov	ebp,esp
@@ -101,6 +103,16 @@ in_byte:
 	pop	ebp
 	ret
 ;---------------------------------------------
+;---------------port_read(t_port port, t_16*buf, int count)--------------
+global port_read
+port_read:
+	mov edx,[esp+4]
+	mov edi,[esp+4*2]
+	mov ecx,[esp+4*3]
+	shr ecx,1
+	cld
+	rep insw
+	ret
 ; ------------------------------------------------------------------------
 
 ; void* memcpy(void* es:pDest, void* ds:pSrc, int iSize);
