@@ -18,8 +18,8 @@ ASM_BOOT_FLAGS=-I ./boot/include/
 ASM_KERNEL_FLAGS=-I include/ -f elf32
 CFLAGS=-I include -I kernel/include -c -fno-builtin -m32 -fno-stack-protector -Wno-deprecated
 #-Wno-deprecated added in chapter8/a
-#LDFLAGS=-Ttext $(ENTRY_POINT) --oformat elf32-i386 #-s
-LDFLAGS=-Ttext $(ENTRY_POINT) -m elf_i386 #-s
+LDFLAGS=-Ttext $(ENTRY_POINT) --oformat elf32-i386 #-s
+#LDFLAGS=-Ttext $(ENTRY_POINT) -m elf_i386 #-s
 DASMFLAGS=-u -o $(ENTRY_POINT) -e $(ENTRY_OFFSET)
 
 #This program
