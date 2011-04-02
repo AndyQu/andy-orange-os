@@ -25,13 +25,9 @@ PUBLIC void p1()
         int i;
         char*tmp="Hello,Wold";
         char*s="<A:%d>";
-//	assert(0);
-        //char*s="<A>";
-        //s[0]=MAG_CH_PANIC;
         while(1){
 		i=get_ticks();
-		printf(s,i);
-		//printf(s);
+		printf(" A ");
 		milli_delay(1000);
         }
 }
