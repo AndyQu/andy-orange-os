@@ -152,7 +152,7 @@ PUBLIC	int	keyboard_read(TTY *p)
 {
 	/*deal with the buffer*/
 	t_32	key=0;
-	t_bool	make=FALSE;
+	t_bool	make=FALSE;//make=TRUE:key presses,make=FALSE:key released
 
 	char code1,code2;
 
@@ -163,7 +163,6 @@ PUBLIC	int	keyboard_read(TTY *p)
 	if((t_8)code1==0xE1){
 		if(kb_input->count<4){
 			//可能这个时候时钟中断还没有把扫描码写入缓冲区，所以暂时先不做处理。
-			//disp_str("Key Pause error:no enough scan code.\n");
 			return -1;
 		}
 		key=PAUSEBREAK;
@@ -173,14 +172,14 @@ PUBLIC	int	keyboard_read(TTY *p)
 	/*Special Keys*/
 	else if((t_8)code1==0xE0){
 		if(kb_input->count<2){
-			//disp_str("special key error:no enough scan code.\n");
+			//可能这个时候时钟中断还没有把扫描码写入缓冲区，所以暂时先不做处理。
 			return -1;
 		}
 		code2=get_scancode(kb_input,2);
 		if(code2>=0 && (unsigned int)code2<=0x7f){
-			key=keymap[MAP_COLS*code2+2];
+			key=keymap[MAP_COLS*code2+2];//get the special key from keymap
 			make=TRUE;
-		}else if( code2 & FLAG_BREAK !=0 ){
+		}else if( code2 & FLAG_BREAK !=0 ){//if code2 & 0x080 !=0
 			make=FALSE;
 		}
 		switch((t_8)code2){
@@ -192,14 +191,13 @@ PUBLIC	int	keyboard_read(TTY *p)
 				break;
 			case 0x38://right alt press
 				r_alt=TRUE;
-			//	printf("r-alt Press ");
 				break;
 			case 0x38+FLAG_BREAK://right alt released
 				r_alt=FALSE;
-			//	printf("r-alt Release");
 				break;
 			case 0x2A://Print Screen press
 				if(kb_input->count<4)
+					//可能这个时候时钟中断还没有把扫描码写入缓冲区，所以暂时先不做处理。
 					return -1;
 				else{
 					key=PRINTSCREEN;
@@ -232,12 +230,9 @@ PUBLIC	int	keyboard_read(TTY *p)
 				break;
 			case	0x1D://left ctrl press
 				l_ctrl=TRUE;
-				//disp_str(" lctrl ");
 				break;
 			case	0x38://left alt press
 				l_alt=TRUE;
-			//	printf("l-alt Press ");
-				//disp_str(" lalt ");
 				break;
 			default:	//normal character key scan code
 				break;
@@ -262,7 +257,6 @@ PUBLIC	int	keyboard_read(TTY *p)
 				break;
 			case	0x38+FLAG_BREAK://left alt released
 				l_alt=FALSE;
-			//	printf("l-alt Release ");
 				break;
 			default:
 				break;
