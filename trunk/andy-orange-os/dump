@@ -3932,7 +3932,7 @@ Disassembly of section .text:
    33734:	78 06                	js     3373c <printChar+0x24>
    33736:	83 7d 08 02          	cmpl   $0x2,0x8(%ebp)
    3373a:	7e 24                	jle    33760 <printChar+0x48>
-   3373c:	c7 44 24 0c 47 01 00 	movl   $0x147,0xc(%esp)
+   3373c:	c7 44 24 0c 41 01 00 	movl   $0x141,0xc(%esp)
    33743:	00 
    33744:	c7 44 24 08 1b 4c 03 	movl   $0x34c1b,0x8(%esp)
    3374b:	00 
