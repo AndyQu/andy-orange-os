@@ -238,6 +238,7 @@ PUBLIC	int	keyboard_read(TTY *p)
 				break;
 		}
 		key=keymap[code1*MAP_COLS];
+		keymap[code1*MAP_COLS+3]=PRESSED;
 		if(l_shift==TRUE||r_shift==TRUE)
 			key=keymap[code1*MAP_COLS+1];
 		make=TRUE;
@@ -261,6 +262,7 @@ PUBLIC	int	keyboard_read(TTY *p)
 			default:
 				break;
 		}
+		keymap[MAP_COLS*(code1&0x7f)+3]=RELEASED;
 		make=FALSE;
 		shift_out(kb_input);
 	}
@@ -279,6 +281,17 @@ PUBLIC	int	keyboard_read(TTY *p)
 					return	2;
 				default:
 					break;
+			}
+		}
+		if(keymap[0x1E*MAP_COLS+3]==PRESSED)/*'a' pressed*/{
+			if(keymap[0x2c*MAP_COLS+3]==PRESSED)/*'z' pressed*/{
+				return 0;
+			}
+			if(keymap[0x2d*MAP_COLS+3]==PRESSED)/*'x' pressed*/{
+				return 1;
+			}
+			if(keymap[0x2e*MAP_COLS+3]==PRESSED)/*'c' pressed*/{
+				return 2;
 			}
 		}
 
