@@ -13,8 +13,12 @@
 /*                          Macros Declaration                          */
 /************************************************************************/
 #define	KB_IN_BYTES	32	/* size of keyboard input buffer */
-#define MAP_COLS	3	/* Number of columns in keymap */
+//#define MAP_COLS	3	/* Number of columns in keymap */
+#define MAP_COLS	4	/* Number of columns in keymap */
 #define NR_SCAN_CODES	0x80	/* Number of scan codes (rows in keymap) */
+
+#define PRESSED	1  //a key is pressed
+#define RELEASED 2 //a key is released
 
 #define FLAG_BREAK	0x0080		/* Break Code			*/
 #define FLAG_EXT	0x0100		/* Normal function keys		*/
