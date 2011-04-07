@@ -63,7 +63,7 @@ PUBLIC	void sys_init()
 	/*added in chapter8.a*/
 	/*initialize process tables of the 3 processes*/
 	MAX_CLOCK=50;
-	MAX_CLOCK=3;
+	MAX_CLOCK=20;
 	init_process_table();
 	/*initialize tss segment*/
 	init_tss();
