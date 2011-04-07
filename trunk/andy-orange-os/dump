@@ -999,7 +999,7 @@ Disassembly of section .text:
    311b9:	e8 33 29 00 00       	call   33af1 <init_all_ttys>
    311be:	c7 05 80 f3 09 00 32 	movl   $0x32,0x9f380
    311c5:	00 00 00 
-   311c8:	c7 05 80 f3 09 00 03 	movl   $0x3,0x9f380
+   311c8:	c7 05 80 f3 09 00 14 	movl   $0x14,0x9f380
    311cf:	00 00 00 
    311d2:	e8 bc f5 ff ff       	call   30793 <init_process_table>
    311d7:	e8 c1 00 00 00       	call   3129d <init_tss>
@@ -6934,39 +6934,54 @@ Disassembly of section .comment:
   54:	62 6c 65 72          	bound  %ebp,0x72(%ebp,%eiz,2)
   58:	20 32                	and    %dh,(%edx)
   5a:	2e 30 35 2e 30 31 00 	xor    %dh,%cs:0x31302e
-  61:	00 54 68 65          	add    %dl,0x65(%eax,%ebp,2)
-  65:	20 4e 65             	and    %cl,0x65(%esi)
-  68:	74 77                	je     e1 <DA_CCOR+0x43>
-  6a:	69 64 65 20 41 73 73 	imul   $0x65737341,0x20(%ebp,%eiz,2),%esp
-  71:	65 
-  72:	6d                   	insl   (%dx),%es:(%edi)
-  73:	62 6c 65 72          	bound  %ebp,0x72(%ebp,%eiz,2)
-  77:	20 32                	and    %dh,(%edx)
-  79:	2e 30 35 2e 30 31 00 	xor    %dh,%cs:0x31302e
-  80:	00 54 68 65          	add    %dl,0x65(%eax,%ebp,2)
-  84:	20 4e 65             	and    %cl,0x65(%esi)
-  87:	74 77                	je     100 <DA_CCOR+0x62>
-  89:	69 64 65 20 41 73 73 	imul   $0x65737341,0x20(%ebp,%eiz,2),%esp
-  90:	65 
-  91:	6d                   	insl   (%dx),%es:(%edi)
-  92:	62 6c 65 72          	bound  %ebp,0x72(%ebp,%eiz,2)
-  96:	20 32                	and    %dh,(%edx)
-  98:	2e 30 35 2e 30 31 00 	xor    %dh,%cs:0x31302e
-  9f:	00 54 68 65          	add    %dl,0x65(%eax,%ebp,2)
-  a3:	20 4e 65             	and    %cl,0x65(%esi)
-  a6:	74 77                	je     11f <DA_CCOR+0x81>
-  a8:	69 64 65 20 41 73 73 	imul   $0x65737341,0x20(%ebp,%eiz,2),%esp
-  af:	65 
-  b0:	6d                   	insl   (%dx),%es:(%edi)
-  b1:	62 6c 65 72          	bound  %ebp,0x72(%ebp,%eiz,2)
-  b5:	20 32                	and    %dh,(%edx)
-  b7:	2e 30 35 2e 30 31 00 	xor    %dh,%cs:0x31302e
-  be:	00 54 68 65          	add    %dl,0x65(%eax,%ebp,2)
-  c2:	20 4e 65             	and    %cl,0x65(%esi)
-  c5:	74 77                	je     13e <DA_CCOR+0xa0>
-  c7:	69 64 65 20 41 73 73 	imul   $0x65737341,0x20(%ebp,%eiz,2),%esp
-  ce:	65 
-  cf:	6d                   	insl   (%dx),%es:(%edi)
-  d0:	62 6c 65 72          	bound  %ebp,0x72(%ebp,%eiz,2)
-  d4:	20 32                	and    %dh,(%edx)
-  d6:	2e 30 35 2e 30 31 00 	xor    %dh,%cs:0x31302e
+  61:	47                   	inc    %edi
+  62:	43                   	inc    %ebx
+  63:	43                   	inc    %ebx
+  64:	3a 20                	cmp    (%eax),%ah
+  66:	28 55 62             	sub    %dl,0x62(%ebp)
+  69:	75 6e                	jne    d9 <DA_CCOR+0x3b>
+  6b:	74 75                	je     e2 <DA_CCOR+0x44>
+  6d:	20 34 2e             	and    %dh,(%esi,%ebp,1)
+  70:	34 2e                	xor    $0x2e,%al
+  72:	33 2d 34 75 62 75    	xor    0x75627534,%ebp
+  78:	6e                   	outsb  %ds:(%esi),(%dx)
+  79:	74 75                	je     f0 <DA_CCOR+0x52>
+  7b:	35 29 20 34 2e       	xor    $0x2e342029,%eax
+  80:	34 2e                	xor    $0x2e,%al
+  82:	33 00                	xor    (%eax),%eax
+  84:	00 54 68 65          	add    %dl,0x65(%eax,%ebp,2)
+  88:	20 4e 65             	and    %cl,0x65(%esi)
+  8b:	74 77                	je     104 <DA_CCOR+0x66>
+  8d:	69 64 65 20 41 73 73 	imul   $0x65737341,0x20(%ebp,%eiz,2),%esp
+  94:	65 
+  95:	6d                   	insl   (%dx),%es:(%edi)
+  96:	62 6c 65 72          	bound  %ebp,0x72(%ebp,%eiz,2)
+  9a:	20 32                	and    %dh,(%edx)
+  9c:	2e 30 35 2e 30 31 00 	xor    %dh,%cs:0x31302e
+  a3:	00 54 68 65          	add    %dl,0x65(%eax,%ebp,2)
+  a7:	20 4e 65             	and    %cl,0x65(%esi)
+  aa:	74 77                	je     123 <DA_CCOR+0x85>
+  ac:	69 64 65 20 41 73 73 	imul   $0x65737341,0x20(%ebp,%eiz,2),%esp
+  b3:	65 
+  b4:	6d                   	insl   (%dx),%es:(%edi)
+  b5:	62 6c 65 72          	bound  %ebp,0x72(%ebp,%eiz,2)
+  b9:	20 32                	and    %dh,(%edx)
+  bb:	2e 30 35 2e 30 31 00 	xor    %dh,%cs:0x31302e
+  c2:	00 54 68 65          	add    %dl,0x65(%eax,%ebp,2)
+  c6:	20 4e 65             	and    %cl,0x65(%esi)
+  c9:	74 77                	je     142 <DA_CCOR+0xa4>
+  cb:	69 64 65 20 41 73 73 	imul   $0x65737341,0x20(%ebp,%eiz,2),%esp
+  d2:	65 
+  d3:	6d                   	insl   (%dx),%es:(%edi)
+  d4:	62 6c 65 72          	bound  %ebp,0x72(%ebp,%eiz,2)
+  d8:	20 32                	and    %dh,(%edx)
+  da:	2e 30 35 2e 30 31 00 	xor    %dh,%cs:0x31302e
+  e1:	00 54 68 65          	add    %dl,0x65(%eax,%ebp,2)
+  e5:	20 4e 65             	and    %cl,0x65(%esi)
+  e8:	74 77                	je     161 <DA_CCOR+0xc3>
+  ea:	69 64 65 20 41 73 73 	imul   $0x65737341,0x20(%ebp,%eiz,2),%esp
+  f1:	65 
+  f2:	6d                   	insl   (%dx),%es:(%edi)
+  f3:	62 6c 65 72          	bound  %ebp,0x72(%ebp,%eiz,2)
+  f7:	20 32                	and    %dh,(%edx)
+  f9:	2e 30 35 2e 30 31 00 	xor    %dh,%cs:0x31302e
