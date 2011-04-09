@@ -13,6 +13,7 @@
 #include"hd_type.h"
 #include"proc.h"
 #include"task.h"
+#include"hd_msg.h"
 
 /*=============================hd_handler==============================*
 hard disk interrupt handler
@@ -20,7 +21,6 @@ Ring<0>
 ======================================================================*/
 PUBLIC void hd_handler()
 {
-//	printf_kernel("THis is the hard disk interrupt handler.\n");
 	inform_int(TASK_HD);
 }
 
@@ -34,6 +34,7 @@ hard disk driver process
 Ring<1>
 ======================================================================*/
 PRIVATE t_16 hdbuf[SECTOR_SIZE];
+PRIVATE t_16 partbuf[SECTOR_SIZE];
 PUBLIC void task_disk()
 {
 
@@ -42,15 +43,21 @@ PUBLIC void task_disk()
 	assert(*pNrDrives);
 	set_hd_handler(disk_int);
 	enable_disk();
-//	printf("This is disk task\n");
 
 	MESSAGE msg;
 	int src;
+	int i;
 	while(1){
 		sendrec(RECEIVE,ANY,&msg);
 		switch(msg.type){
 			case DISK_IDENTIFY:
 				hd_identify(0);
+				break;
+			case CHECK_PARTITION:
+				disk2mem(0,0,1,partbuf);
+				for(i=0x1be/2;i<(0x1de/2);i++){
+					printf("%d ",(int)partbuf[i]);
+				}
 				break;
 			default:
 				continue;	

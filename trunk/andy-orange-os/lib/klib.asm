@@ -114,6 +114,16 @@ port_read:
 	rep insw
 	ret
 ; ------------------------------------------------------------------------
+;---------------port_read_byte(t_port port, t_8*buf, int count)--------------
+global port_read_byte
+port_read_byte:
+	mov edx,[esp+4]
+	mov edi,[esp+4*2]
+	mov ecx,[esp+4*3]
+	cld
+	rep insb
+	ret
+; ------------------------------------------------------------------------
 
 ; void* memcpy(void* es:pDest, void* ds:pSrc, int iSize);
 ;参数都依次被压入在堆栈中

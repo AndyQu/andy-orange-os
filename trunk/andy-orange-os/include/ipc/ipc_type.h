@@ -39,6 +39,5 @@ typedef struct {
 #define MESSAGE_M1 0
 #define MESSAGE_M2 1
 #define MESSAGE_M3 2
-#define DISK_IDENTIFY 3
 
 #endif

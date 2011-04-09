@@ -62,7 +62,7 @@ boot/boot.com:./boot/boot.asm ./boot/include/load.inc ./boot/include/fat12hdr.in
 ###########################################################################
 
 
-OBJS=./kernel/kernel.o ./kernel/proc_init.o ./kernel/kernel_printf.o ./kernel/schedule.o ./kernel/sys_call_kernel.o ./kernel/exception.o ./kernel/init.o ./kernel/sys_call_shell.o ./kernel/global.o ./kernel/ipc.o ./kernel/printf.o ./kernel/tss.o ./kernel/set_idt.o ./kernel/proc_util.o ./kernel/interrupt.o ./kernel/global_const.o ./kernel/myprintf.o ./kernel/i8259.o ./lib/misc.o ./lib/klib.o ./lib/klibC.o ./sys_task/task.o ./sys_task/interface_get_ticks.o ./sys_task//tty/key.o ./sys_task//tty/task_tty.o ./sys_task//tty/keymap.o ./sys_task//tty/tty.o ./sys_task//tick/task_tick.o ./sys_task//fs/task_fs.o ./sys_task//disk/task_disk.o ./sys_task//disk/data.o ./sys_task//disk/partition.o ./application//test/normal_procs.o 
+OBJS=./kernel/kernel.o ./kernel/proc_init.o ./kernel/kernel_printf.o ./kernel/schedule.o ./kernel/sys_call_kernel.o ./kernel/exception.o ./kernel/init.o ./kernel/sys_call_shell.o ./kernel/global.o ./kernel/ipc.o ./kernel/printf.o ./kernel/tss.o ./kernel/set_idt.o ./kernel/proc_util.o ./kernel/interrupt.o ./kernel/tty_kernel.o ./kernel/global_const.o ./kernel/myprintf.o ./kernel/i8259.o ./lib/misc.o ./lib/klib.o ./lib/klibC.o ./sys_task/task.o ./sys_task/interface_get_ticks.o ./sys_task//tty/key.o ./sys_task//tty/task_tty.o ./sys_task//tty/keymap.o ./sys_task//tty/tty.o ./sys_task//tick/task_tick.o ./sys_task//fs/task_fs.o ./sys_task//disk/task_disk.o ./sys_task//disk/data.o ./sys_task//disk/partition.o ./application//test/normal_procs.o 
 CFLAGS=-c -fno-builtin -m32 -fno-stack-protector -Wno-deprecated  -I ./kernel/./include/ -I ./include/ -I ./include//func/ -I ./include//8253/ -I ./include//interrupt/ -I ./include//keyboard/ -I ./include//protect/ -I ./include//const/ -I ./include//ipc/ -I ./include//console/ -I ./include//8259A/ -I ./include//hard_disk/ -I ./include//video/ -I ./include//proc/ -I ./include//assert/ -I ./include//task/ -I ./include//type/
 
 
@@ -169,6 +169,11 @@ $(TINIX_KERNEL):$(OBJS)
  include//ipc/ipc_type.h include//ipc/ipc_func.h include//func/proto.h \
  include//assert/assert.h
 	$(CC) $(CFLAGS) -o $@ $<
+./kernel/tty_kernel.o: kernel/tty_kernel.c include//const/const.h \
+ include//type/type.h include//keyboard/keyboard_type.h \
+ include//keyboard/keyboard_const.h include//func/proto.h \
+ kernel/./include/key.h include//assert/assert.h
+	$(CC) $(CFLAGS) -o $@ $<
 ./kernel/global_const.o: kernel/global_const.c include//type/type.h \
  include//const/const.h include//protect/protect_type.h \
  include//protect/protect_const.h include//protect/pm.h \
@@ -229,7 +234,8 @@ $(TINIX_KERNEL):$(OBJS)
 	$(CC) $(CFLAGS) -o $@ $<
 ./sys_task//fs/task_fs.o: sys_task//fs/task_fs.c include//const/const.h \
  include//type/type.h include//ipc/ipc.h include//ipc/ipc_const.h \
- include//ipc/ipc_type.h include//ipc/ipc_func.h include//task/task.h
+ include//ipc/ipc_type.h include//ipc/ipc_func.h include//task/task.h \
+ include//hard_disk/hd_msg.h
 	$(CC) $(CFLAGS) -o $@ $<
 ./sys_task//disk/task_disk.o: sys_task//disk/task_disk.c include//type/type.h \
  include//const/const.h include//protect/protect_type.h \
@@ -242,12 +248,16 @@ $(TINIX_KERNEL):$(OBJS)
  include//8259A/8259A_func.h include//8253/8253_const.h \
  include//hard_disk/hd_const.h include//hard_disk/hd_type.h \
  include//hard_disk/hd_const.h include//proc/proc.h \
- include//proc/proc_type.h include//proc/proc_func.h include//task/task.h
+ include//proc/proc_type.h include//proc/proc_func.h include//task/task.h \
+ include//hard_disk/hd_msg.h
 	$(CC) $(CFLAGS) -o $@ $<
 ./sys_task//disk/data.o: sys_task//disk/data.c include//type/type.h include//const/const.h \
  include//hard_disk/hd_type.h include//hard_disk/hd_const.h
 	$(CC) $(CFLAGS) -o $@ $<
-./sys_task//disk/partition.o: sys_task//disk/partition.c
+./sys_task//disk/partition.o: sys_task//disk/partition.c include//type/type.h \
+ include//const/const.h include//hard_disk/hd_const.h \
+ include//hard_disk/hd_type.h include//hard_disk/hd_const.h \
+ include//assert/assert.h
 	$(CC) $(CFLAGS) -o $@ $<
 ./application//test/normal_procs.o: application//test/normal_procs.c include//type/type.h \
  include//const/const.h include//protect/protect_type.h \

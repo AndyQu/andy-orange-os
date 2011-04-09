@@ -14,13 +14,17 @@ struct hd_cmd{
 };
 
 struct part_info{
-	t_8 type;
+	t_bool bootable;
+	t_16 type;
 	t_32 base;
 	t_32 size;
 };
 
 struct hd_info{
 	struct part_info primary[NR_PRIM_PER_DRIVE];
+	t_32 ext_base;
+	t_32 ext_size;
+	t_bool ext_valid;
 	struct part_info logical[NR_SUB_PER_DRIVE];
 };
 #endif

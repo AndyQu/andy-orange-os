@@ -12,7 +12,6 @@ global	key_int
 global	clock_int
 [section .text]
 ;>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-extern	k_reenter
 extern	in_sys_call
 extern	clock_int_count
 ;时钟中断处理
@@ -76,6 +75,7 @@ disk_int:
 ;	Because sys_call needs eax,ebx,ecx,edx as parameters, So "Save" should not modify any register of the 4.
 global	Save
 Save:
+extern	k_reenter
 	pushad
 	push	ds
 	push	es
@@ -96,7 +96,6 @@ Save:
 	jmp [edi+4*12]
 .reenter:
 	push restart_reenter;将restart_reenter函数地址压入堆栈
-	inc	byte[gs:540];每次键盘中断一次，改变一次
 	jmp [edi+4*12]
 ;>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 ;>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

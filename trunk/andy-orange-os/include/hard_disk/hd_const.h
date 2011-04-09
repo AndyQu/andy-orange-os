@@ -40,4 +40,10 @@ make the device parameter for "Device" of Command Block Registers
 /*Below macros are about disk partitions.*/
 #define NR_PRIM_PER_DRIVE 4
 #define NR_SUB_PER_DRIVE 16
+/**/
+#define BOOTABLE 0x80
+#define TYPE_EXTEND 0x05
+#define TYPE_LINUX 0x83
+#define TYPE_ORANGE 0x99
+#define TYPE_INVALID 0x00
 #endif
