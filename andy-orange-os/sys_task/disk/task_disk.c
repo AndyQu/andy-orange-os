@@ -20,7 +20,7 @@ Ring<0>
 ======================================================================*/
 PUBLIC void hd_handler()
 {
-	printf_kernel("THis is the hard disk interrupt handler.\n");
+//	printf_kernel("THis is the hard disk interrupt handler.\n");
 	inform_int(TASK_HD);
 }
 
@@ -42,7 +42,7 @@ PUBLIC void task_disk()
 	assert(*pNrDrives);
 	set_hd_handler(disk_int);
 	enable_disk();
-	printf("This is disk task\n");
+//	printf("This is disk task\n");
 
 	MESSAGE msg;
 	int src;

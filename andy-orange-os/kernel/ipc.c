@@ -206,7 +206,7 @@ PUBLIC void inform_int(int pid)
 	PROCESS_TABLE*p=pid2proc(pid);
 	assert_kernel(p!=0);
 	/*the target process is waiting for a message*/
-	printf_kernel("sending to %d ",pid);
+	//printf_kernel("sending to %d ",pid);
 	if( (p->p_flags&RECEIVING)!=0 && ( p->p_recvfrom==ANY|| p->p_recvfrom==INTERRUPT) ){
 		p->has_int_msg=TRUE;
 		p->p_flags&=~RECEIVING;
