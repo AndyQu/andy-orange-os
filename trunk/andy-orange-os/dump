@@ -4025,7 +4025,7 @@ Disassembly of section .text:
    3388e:	78 06                	js     33896 <printChar+0x24>
    33890:	83 7d 08 02          	cmpl   $0x2,0x8(%ebp)
    33894:	7e 24                	jle    338ba <printChar+0x48>
-   33896:	c7 44 24 0c 4e 01 00 	movl   $0x14e,0xc(%esp)
+   33896:	c7 44 24 0c 59 01 00 	movl   $0x159,0xc(%esp)
    3389d:	00 
    3389e:	c7 44 24 08 5b 4e 03 	movl   $0x34e5b,0x8(%esp)
    338a5:	00 
@@ -4327,7 +4327,7 @@ Disassembly of section .text:
    33c0f:	83 ec 18             	sub    $0x18,%esp
    33c12:	83 7d 08 00          	cmpl   $0x0,0x8(%ebp)
    33c16:	79 24                	jns    33c3c <id2tty+0x30>
-   33c18:	c7 44 24 0c 27 00 00 	movl   $0x27,0xc(%esp)
+   33c18:	c7 44 24 0c 26 00 00 	movl   $0x26,0xc(%esp)
    33c1f:	00 
    33c20:	c7 44 24 08 93 4e 03 	movl   $0x34e93,0x8(%esp)
    33c27:	00 

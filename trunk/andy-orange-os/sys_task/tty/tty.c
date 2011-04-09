@@ -23,7 +23,7 @@ PUBLIC	void switch_tty(TTY*p,TTY*old)
 }
 
 /*
-RING<1>
+RING<1><0>
 */
 PUBLIC int tty2id(TTY*p)
 {
@@ -31,11 +31,10 @@ PUBLIC int tty2id(TTY*p)
 	return (p-tty_table);
 }
 /*
-RING<1>
+RING<1><0>
 */
 PUBLIC TTY* id2tty(int id)
 {
-//	printf("ttyid:%d ",id);
 	assert(id>=0);
 	return tty_table+id;
 }
