@@ -121,6 +121,9 @@ PUBLIC	int	add_tail(KB_INPUT*p,char code)
 /*下面这个函数作为键盘输入的中断相应函数*/
 extern	int disp_pos;
 PRIVATE	KB_INPUT	kb_input[1];
+/*
+RING<0>
+*/
 PUBLIC	void key_interrupt()
 {
 	/*get scan code from 8042,and append it in the buffer.*/
@@ -136,6 +139,9 @@ PRIVATE	t_bool	r_ctrl;
 PRIVATE	t_bool	l_alt;
 PRIVATE	t_bool	r_alt;
 
+/*
+RING<0>
+*/
 PUBLIC	void	init_keyboard()
 {
 	init_KB_INPUT(kb_input);
@@ -148,6 +154,9 @@ PUBLIC	void	init_keyboard()
 }
 extern	int	__currentTTY;
 int	printChar(int tty,t_32 key);
+/*
+RING<1>
+*/
 PUBLIC	int	keyboard_read(TTY *p)
 {
 	/*deal with the buffer*/
@@ -323,8 +332,10 @@ PUBLIC void	set_disp_addr(int addr)
 	out_byte(CRTC_DATA_REG,(addr)&0xff);
 }
 
-/*function name changed from in_process() to printChar()*/
 TTY* id2tty(int);
+/*
+RING<0><1>
+*/
 PUBLIC int printChar(int tty_id,t_32 key)
 {
 	//disable_int();
