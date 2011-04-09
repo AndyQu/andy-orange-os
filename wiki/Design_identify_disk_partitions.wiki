@@ -1,0 +1,29 @@
+#labels Phase-Design,Phase-Implementation
+设计：识别硬盘分区
+
+= Introduction =
+
+Orange'S 已经完成硬盘基本信息的读取、显示功能。下一步是识别硬盘分区。
+算法、数据结构设计、函数设计、代码文件结构的组织是三个重要的方面。
+
+= Details =
+
+*算法*：
+   1.读取硬盘分区表到内存。
+   2.识别分区，保存信息。如果有扩展分区，转到3。如果没有扩展分区，转到4。
+   3.读取扩展分区分区表到内存。转到2。
+   4.显示硬盘分区信息。
+*数据结构设计*：
+   1.硬盘分区表结构体
+   2.全局变量：分区表结构体数组
+*函数设计*：
+   1.disk2mem：读取某个地址范围内的硬盘数据到指针指向的内存
+   2.getPartitionInfo：从内存分区表中识别分区，保存到分区表结构体
+   3.printPartitionInfo：显示分区表结构体的信息
+*代码文件结构组织*：
+   1.创建文件./sys_task/disk/partitin.c，包含所有关于分区的数据、函数代码
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
