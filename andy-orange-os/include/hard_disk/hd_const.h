@@ -12,6 +12,7 @@ make the device parameter for "Device" of Command Block Registers
 
 /*Following Macros are used for "Command" of Command Block Registers*/
 #define ATA_IDENTIFY 0xEC
+#define ATA_READ 0x20
 
 /*Following Macros are of hard disk I/O ports used to write into */
 #define REG_HD_DEV_CTRL		0x03f6	//Control Block Register
@@ -34,4 +35,9 @@ make the device parameter for "Device" of Command Block Registers
 #define HD_TIMEOUT	1000
 
 #define SECTOR_SIZE 512
+
+
+/*Below macros are about disk partitions.*/
+#define NR_PRIM_PER_DRIVE 4
+#define NR_SUB_PER_DRIVE 16
 #endif
