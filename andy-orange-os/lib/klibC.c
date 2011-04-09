@@ -39,11 +39,10 @@ PUBLIC char* itoa(char *str,unsigned int num)
 		remainder=num%16;
 		if(remainder<10){
 			str[index]=remainder+'0';
-			index--;
 		}else{
 			str[index]=remainder-10+'A';
-			index--;
 		}
+		index--;
 		num=quotient;
 	}
 	return str;

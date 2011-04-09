@@ -20,21 +20,18 @@ extern	in_sys_call
 ;注：系统调用不会在内核层中被调用，因此不必进行判断。
 __sys_call_local dd 0
 sys_call:
-extern	k_reenter
+	cli
 	mov	dword[in_sys_call],1
 	call    Save
-	sti
-
-	;给ds赋值
 	push	edx
 	mov	edx,dword[__processID]
 	mov dword[__sys_call_local],edx
 	pop	edx
+	sti
 
 	push	ebp
 	mov	ebp,esp
 
-	;new added
 	push	edx
 	push	ecx
 	push	ebx

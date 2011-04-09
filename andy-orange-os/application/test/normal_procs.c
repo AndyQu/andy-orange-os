@@ -22,14 +22,14 @@ PUBLIC void milli_delay(int milli_sec)
 }
 PUBLIC void p1()
 {
-        int i;
-        char*tmp="Hello,Wold";
-        char*s="<A:%d>";
-        while(1){
-		i=get_ticks();
-		printf(" A ");
-		milli_delay(1000);
-        }
+int i;
+char*tmp="Hello,Wold";
+char*s="<A:%d>";
+while(1){
+	i=get_ticks();
+//	printf(" A ");
+	milli_delay(1000);
+}
 }
 PUBLIC void p2()
 {

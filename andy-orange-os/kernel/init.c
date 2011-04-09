@@ -42,7 +42,6 @@ void init_prot();
 t_32	clock_int_count=0;
 void	set_timer();
 void	init_sys_call();
-void	init_all_ttys();
 int	in_sys_call=0;
 PUBLIC	void sys_init()
 {
@@ -57,7 +56,6 @@ PUBLIC	void sys_init()
 	/*设置8253时钟*/
 	disp_str("Initializing 8253 timer....\n");
 	set_timer();
-	/*初始化tty*/
 	disp_str("Initializing ttys .........\n");
 	init_all_ttys();
 	/*added in chapter8.a*/
