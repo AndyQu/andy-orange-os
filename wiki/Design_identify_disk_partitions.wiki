@@ -22,3 +22,6 @@ Orange'S 已经完成硬盘基本信息的读取、显示功能。下一步是�
    3.printPartitionInfo：显示分区表结构体的信息
 *代码文件结构组织*：
    1.创建文件./sys_task/disk/partitin.c，包含所有关于分区的数据、函数代码
+
+= To be continued =
+将与Orange'S系统的书本原有设计进行比较，取其精华。
