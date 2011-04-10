@@ -7,7 +7,7 @@ romimage:	file=$BXSHARE/BIOS-bochs-latest #,address=0xf0000
 vgaromimage:	file=$BXSHARE/VGABIOS-lgpl-latest
 
 #disk image
-floppya:	1_44=/root/OS/andy-orange-os/boot/boot.img,status=inserted
+floppya:	1_44=./boot/boot.img,status=inserted
 
 #choose boot
 boot:a
