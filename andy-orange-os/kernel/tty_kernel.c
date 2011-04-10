@@ -37,3 +37,18 @@ PUBLIC	void	init_all_ttys()
 	__currentTTY=0;
 
 }
+
+/*
+RING<1><0>
+*/
+PUBLIC int tty2id(TTY*p)
+{
+  return (p-tty_table);
+}
+/*
+RING<1><0>
+*/
+PUBLIC TTY* id2tty(int id)
+{
+  return tty_table+id;
+}
