@@ -65,6 +65,7 @@ PUBLIC	void sys_init()
 	init_process_table();
 	/*initialize tss segment*/
 	init_tss();
+	k_reenter=0;
 }
 
 

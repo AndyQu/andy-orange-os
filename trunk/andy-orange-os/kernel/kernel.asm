@@ -18,7 +18,6 @@ extern tss
 extern p1
 extern __processID
 extern clock_times
-extern k_reenter;added in chapter8.a,to identify whether it's in kernel or process.0: process; >0:kernel
 
 [section .bss]
 global	StackTop
@@ -69,7 +68,6 @@ extern	setTssEspReady
 	mov     [gs:544],dx
 	mov     [gs:550],dx
 
-	mov	dword[k_reenter],0
 	mov	eax,LDT_SelectorP1_SS
 	push	eax
 	mov	eax,P1_STACK_SIZE-1
