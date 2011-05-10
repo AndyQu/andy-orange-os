@@ -23,11 +23,11 @@ sys_call:
 	cli
 	mov	dword[in_sys_call],1
 	call    Save
-	push	edx
-	mov	edx,dword[__processID]
-	mov dword[__sys_call_local],edx
-	pop	edx
-	sti
+;	push	edx
+;	mov	edx,dword[__processID]
+;	mov dword[__sys_call_local],edx
+;	pop	edx
+;	sti
 
 	push	ebp
 	mov	ebp,esp
@@ -35,7 +35,9 @@ sys_call:
 	push	edx
 	push	ecx
 	push	ebx
-	push	dword[__sys_call_local];
+;	push	dword[__sys_call_local];
+	push	dword[__processID]
+	sti
 	call    [sys_call_table+eax*4]
 	add	esp,4*4
 
