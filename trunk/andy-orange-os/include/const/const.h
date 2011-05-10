@@ -8,4 +8,5 @@
 #define MAG_CH_PANIC    '\002'
 #define MAG_CH_ASSERT   '\003'
 
+#define NULL 0
 #endif
